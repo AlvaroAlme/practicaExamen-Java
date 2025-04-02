@@ -19,6 +19,8 @@ public class GestionAlquilerTest {
     private final GestionAlquiler gestionAlquiler = new GestionAlquiler();
     private final char[] nifLetters = {'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'};
 
+    private int firstEmptyPosition = 0;
+
     @Test
     public void testRegistrarVivienda() {
         Persona persona = randomPersona();
@@ -31,20 +33,58 @@ public class GestionAlquilerTest {
         assertFalse("Se ha podido registrar una vivienda aunque el registro estaba lleno (150 viviendas registradas)", gestionAlquiler.registrarVivienda(vivienda, persona));
     }
 
+    @Test
+    public void testInformacionVivienda() {
+        Vivienda[] listado = gestionAlquiler.getListadoVivienda();
+        Persona persona = randomPersona();
+        Vivienda vivienda = createVivienda(persona);
+        assertNull("Resultado no nulo con ninguna vivienda registrada (debería ser nulo)", gestionAlquiler.informacionVivienda(persona.getDni()));
+        listado[0] = vivienda;
+        assertEquals("No se ha encontrado la única vivienda registrada", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
+        assertNull("Resultado no nulo con una única vivienda registrada, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(generateValidNif()));
+        partiallyFill();
+        listado[firstEmptyPosition] = vivienda;
+        assertEquals("No se ha encontrado una vivienda registrada al final", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
+        assertNull("Resultado no nulo con algunos registros, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(generateValidNif()));
+        listado[firstEmptyPosition] = null;
+        listado[firstEmptyPosition / 2] = vivienda;
+        assertEquals("No se ha encontrado una vivienda registrada en el medio", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
+        assertNull("Resultado no nulo con algunos registros, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(generateValidNif()));
+        listado[firstEmptyPosition / 2] = createVivienda();
+        listado[0] = vivienda;
+        assertEquals("No se ha encontrado una vivienda registrada al principio", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
+        assertNull("Resultado no nulo con algunos registros, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(generateValidNif()));
+        complete();
+        assertNull("Resultado no nulo con todos los registros completos, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(persona.getDni()));
+    }
+
+    @Test
+    public void testAsignarAlquiler() {
+
+    }
+
+    @Test
+    public void calcularCosteSeguro() {
+
+    }
+
     @After
     public void clean() {
         Vivienda[] listado = gestionAlquiler.getListadoVivienda();
         for(int i = 0; i < listado.length; i++) {
             listado[i] = null;
         }
+        firstEmptyPosition = 0;
     }
 
     private void partiallyFill() {
         Vivienda[] listado = gestionAlquiler.getListadoVivienda();
         int max = new Faker().random().nextInt(listado.length - 1);
-        for(int i = 0; i < max; i++) {
+        int i;
+        for(i = 0; i < max; i++) {
             listado[i] = createVivienda();
         }
+        firstEmptyPosition = i;
     }
 
     private void complete() {
