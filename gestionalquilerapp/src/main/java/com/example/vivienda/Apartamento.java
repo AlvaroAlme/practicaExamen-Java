@@ -2,9 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.gestionalquilerapp.vivienda;
-
-import com.mycompany.gestionalquilerapp.vivienda.Vivienda;
+package com.example.vivienda;
 
 /**
  *
@@ -14,6 +12,10 @@ public class Apartamento extends Vivienda {
     
     private int costeMantenimiento;
     private boolean tieneAscensor;
+
+    public Apartamento() {
+        super();
+    }
 
     public Apartamento(String direccion, double metrosCuadrados, double precioAlquilerMensual) {
         super(direccion, metrosCuadrados, precioAlquilerMensual);

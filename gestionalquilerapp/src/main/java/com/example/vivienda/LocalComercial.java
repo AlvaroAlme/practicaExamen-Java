@@ -2,9 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.gestionalquilerapp.vivienda;
-
-import com.mycompany.gestionalquilerapp.vivienda.Vivienda;
+package com.example.vivienda;
 
 /**
  *
@@ -13,6 +11,10 @@ import com.mycompany.gestionalquilerapp.vivienda.Vivienda;
 public class LocalComercial extends Vivienda {
     
     private int recargoUbicacion;
+
+    public LocalComercial() {
+        super();
+    }
 
     public LocalComercial(int recargoUbicacion, String direccion, double metrosCuadrados, double precioAlquilerMensual) {
         super(direccion, metrosCuadrados, precioAlquilerMensual);
@@ -26,9 +28,6 @@ public class LocalComercial extends Vivienda {
     public void setRecargoUbicacion(int recargoUbicacion) {
         this.recargoUbicacion = recargoUbicacion;
     }
-    
-    
-    
     
     @Override
     public double calcularCosteTotal(){

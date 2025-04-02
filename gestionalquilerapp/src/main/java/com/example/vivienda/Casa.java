@@ -2,9 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.gestionalquilerapp.vivienda;
-
-import com.mycompany.gestionalquilerapp.vivienda.Vivienda;
+package com.example.vivienda;
 
 /**
  *
@@ -16,8 +14,28 @@ public class Casa extends Vivienda {
     private boolean tieneGaraje;
     private int costeJardin;
 
+    public Casa() {
+        super();
+    }
+
     public Casa(String direccion, double metrosCuadrados, double precioAlquilerMensual) {
         super(direccion, metrosCuadrados, precioAlquilerMensual);
+    }
+
+    public boolean isTieneJardin() {
+        return tieneJardin;
+    }
+
+    public void setTieneJardin(boolean tieneJardin) {
+        this.tieneJardin = tieneJardin;
+    }
+
+    public boolean isTieneGaraje() {
+        return tieneGaraje;
+    }
+
+    public void setTieneGaraje(boolean tieneGaraje) {
+        this.tieneGaraje = tieneGaraje;
     }
 
     public int getCosteJardin() {
