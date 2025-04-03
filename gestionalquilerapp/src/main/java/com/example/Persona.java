@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.gestionalquilerapp;
+package com.example;
 
 /**
  *
@@ -13,6 +13,16 @@ public class Persona {
     private String nombre;
     private String apellidos;
     private String dni;
+
+    public Persona() {
+        super();
+    }
+
+    public Persona(String nombre, String apellidos, String dni){
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.dni = dni;
+    }
 
     public String getNombre() {
         return nombre;
@@ -37,14 +47,5 @@ public class Persona {
     public void setDni(String dni) {
         this.dni = dni;
     }
-    
-    public Persona(String nombre, String apellidos, String dni){
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.dni = dni;
-    }
-    
-    
-    
     
 }

@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.gestionalquilerapp.vivienda;
+package com.example.vivienda;
 
-import com.mycompany.gestionalquilerapp.Persona;
+import com.example.Persona;
 
 /**
  *
@@ -18,6 +18,16 @@ public abstract class Vivienda implements Asegurable {
     private boolean isDisponible;
     private Persona propietaria;
     private Persona inquilina;
+
+    protected Vivienda() {
+        super();
+    }
+
+    protected Vivienda(String direccion, double metrosCuadrados, double precioAlquilerMensual) {
+        this.direccion = direccion;
+        this.metrosCuadrados = metrosCuadrados;
+        this.precioAlquilerMensual = precioAlquilerMensual;
+    }
 
     public String getDireccion() {
         return direccion;
@@ -65,12 +75,6 @@ public abstract class Vivienda implements Asegurable {
 
     public void setInquilina(Persona inquilina) {
         this.inquilina = inquilina;
-    }
-
-    public Vivienda(String direccion, double metrosCuadrados, double precioAlquilerMensual) {
-        this.direccion = direccion;
-        this.metrosCuadrados = metrosCuadrados;
-        this.precioAlquilerMensual = precioAlquilerMensual;
     }
     
     public abstract double calcularCosteTotal();
