@@ -1,9 +1,12 @@
 package com.example;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import com.example.vivienda.Vivienda;
 import com.github.javafaker.Faker;
@@ -21,19 +24,19 @@ public class GestionAlquilerTest {
         config.setPropietario(testUtils.persona());
         Vivienda vivienda = testUtils.createVivienda(config);
 
-        assertTrue("No se ha podido registrar una vivienda cuando no había ninguna registrada.", 
-        gestionAlquiler.registrarVivienda(vivienda, config.getPropietario()));
+        assertTrue(gestionAlquiler.registrarVivienda(vivienda, config.getPropietario()),
+            "No se ha podido registrar una vivienda cuando no había ninguna registrada.");
 
-        assertFalse("Se ha podido registrar una vivienda aunque el propietario ya había registrado otra.", 
-        gestionAlquiler.registrarVivienda(testUtils.createVivienda(config), config.getPropietario()));
+        assertThrows(IllegalArgumentException.class, () -> gestionAlquiler.registrarVivienda(testUtils.createVivienda(config), config.getPropietario()),
+            "Se ha podido registrar una vivienda aunque el propietario ya había registrado otra.");
 
         partiallyFill();
-        assertTrue("No se ha podido registrar una vivienda cuando había algunas registradas pero el nuevo propietario no había registraddo ninguna.", 
-        gestionAlquiler.registrarVivienda(vivienda, config.getPropietario()));
+        assertTrue(gestionAlquiler.registrarVivienda(vivienda, config.getPropietario()),
+            "No se ha podido registrar una vivienda cuando había algunas registradas pero el nuevo propietario no había registrado ninguna.");
 
         fill();
-        assertFalse("Se ha podido registrar una vivienda aunque el registro estaba lleno (150 viviendas registradas)", 
-        gestionAlquiler.registrarVivienda(vivienda, config.getPropietario()));
+        assertFalse(gestionAlquiler.registrarVivienda(vivienda, config.getPropietario()),
+            "Se ha podido registrar una vivienda aunque el registro estaba lleno (150 viviendas registradas).");
     }
 
     @Test
@@ -44,29 +47,45 @@ public class GestionAlquilerTest {
         config.setPropietario(persona);
         Vivienda vivienda = testUtils.createVivienda(config);
 
-        assertNull("Resultado no nulo con ninguna vivienda registrada (debería ser nulo)", gestionAlquiler.informacionVivienda(persona.getDni()));
+        assertNull(gestionAlquiler.informacionVivienda(persona.getDni()),
+            "Resultado no nulo con ninguna vivienda registrada (debería ser nulo).");
 
         listado[0] = vivienda;
-        assertEquals("No se ha encontrado la única vivienda registrada", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
-        assertNull("Resultado no nulo con una única vivienda registrada, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(testUtils.generateValidNif()));
+        assertEquals(vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()),
+            "No se ha encontrado la única vivienda registrada.");
+        assertNull(gestionAlquiler.informacionVivienda(testUtils.generateValidNif()),
+            "Resultado no nulo con una única vivienda registrada, pero no incluyendo el propietario.");
 
         partiallyFill();
         listado[firstEmptyPosition] = vivienda;
-        assertEquals("No se ha encontrado una vivienda registrada al final", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
-        assertNull("Resultado no nulo con algunos registros, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(testUtils.generateValidNif()));
+        assertEquals(vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()),
+            "No se ha encontrado una vivienda registrada al final.");
+        assertNull(gestionAlquiler.informacionVivienda(testUtils.generateValidNif()),
+            "Resultado no nulo con algunos registros, pero no incluyendo el propietario.");
 
         listado[firstEmptyPosition] = null;
         listado[firstEmptyPosition / 2] = vivienda;
-        assertEquals("No se ha encontrado una vivienda registrada en el medio", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
-        assertNull("Resultado no nulo con algunos registros, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(testUtils.generateValidNif()));
+        assertEquals(vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()),
+            "No se ha encontrado una vivienda registrada en el medio.");
+        assertNull(gestionAlquiler.informacionVivienda(testUtils.generateValidNif()),
+            "Resultado no nulo con algunos registros, pero no incluyendo el propietario.");
 
         listado[firstEmptyPosition / 2] = testUtils.createVivienda();
         listado[0] = vivienda;
-        assertEquals("No se ha encontrado una vivienda registrada al principio", vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()));
-        assertNull("Resultado no nulo con algunos registros, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(testUtils.generateValidNif()));
+        assertEquals(vivienda.toString(), gestionAlquiler.informacionVivienda(persona.getDni()),
+            "No se ha encontrado una vivienda registrada al principio.");
+        assertNull(gestionAlquiler.informacionVivienda(testUtils.generateValidNif()),
+            "Resultado no nulo con algunos registros, pero no incluyendo el propietario.");
 
         fill();
-        assertNull("Resultado no nulo con todos los registros completos, pero no incluyendo el propietario", gestionAlquiler.informacionVivienda(persona.getDni()));
+        assertNull(gestionAlquiler.informacionVivienda(persona.getDni()),
+            "Resultado no nulo con todos los registros completos, pero no incluyendo el propietario.");
+    }
+
+    @Test
+    public void testListadoVivienda() {
+        fill();
+        gestionAlquiler.listadoVivienda();
     }
 
     @Test
@@ -81,15 +100,15 @@ public class GestionAlquilerTest {
         configMax.setMaxCosteTotal(1000);
         configMax.setMinCosteTotal(500);
 
-        assertFalse("Se ha podido asignar el alquiler de una vivienda cuando el dinero disponible no superaba el coste total del alquiler.",
-            gestionAlquiler.asignarAlquiler(listado[faker.random().nextInt(0, 150)].getPropietaria().getDni(), testUtils.persona(), 1800.0));
+        assertFalse(gestionAlquiler.asignarAlquiler(listado[faker.random().nextInt(0, 150)].getPropietaria().getDni(), testUtils.persona(), 1800.0),
+            "Se ha podido asignar el alquiler de una vivienda cuando el dinero disponible no superaba el coste total del alquiler.");
 
         Vivienda vivienda = testUtils.createVivienda(configMax);
         listado[faker.random().nextInt(0, 150)] = vivienda;
-        assertTrue("No se ha podido asignar el alquiler de una vivienda cuando el dinero disponible superaba el coste total del alquiler.",
-            gestionAlquiler.asignarAlquiler(vivienda.getPropietaria().getDni(), testUtils.persona(), 1800.0));
-        assertFalse("Se ha podido asignar el alquiler de una vivienda cuando la vivienda ya no estaba disponible.",
-            gestionAlquiler.asignarAlquiler(vivienda.getPropietaria().getDni(), testUtils.persona(), 1800.0));
+        assertTrue(gestionAlquiler.asignarAlquiler(vivienda.getPropietaria().getDni(), testUtils.persona(), 1800.0),
+            "No se ha podido asignar el alquiler de una vivienda cuando el dinero disponible superaba el coste total del alquiler.");
+        assertFalse(gestionAlquiler.asignarAlquiler(vivienda.getPropietaria().getDni(), testUtils.persona(), 1800.0),
+            "Se ha podido asignar el alquiler de una vivienda cuando la vivienda ya no estaba disponible.");
     }
 
     @Test
@@ -97,10 +116,10 @@ public class GestionAlquilerTest {
 
     }
 
-    @After
+    @AfterEach
     public void clean() {
         Vivienda[] listado = gestionAlquiler.getListadoVivienda();
-        for(int i = 0; i < listado.length; i++) {
+        for (int i = 0; i < listado.length; i++) {
             listado[i] = null;
         }
         firstEmptyPosition = 0;
@@ -110,7 +129,7 @@ public class GestionAlquilerTest {
         Vivienda[] listado = gestionAlquiler.getListadoVivienda();
         int max = new Faker().random().nextInt(listado.length - 1);
         int i;
-        for(i = 0; i < max; i++) {
+        for (i = 0; i < max; i++) {
             listado[i] = testUtils.createVivienda(config);
         }
         firstEmptyPosition = i;
@@ -122,7 +141,7 @@ public class GestionAlquilerTest {
 
     private void fill(ViviendaConfig config) {
         Vivienda[] listado = gestionAlquiler.getListadoVivienda();
-        for(int i = 0; i < listado.length; i++) {
+        for (int i = 0; i < listado.length; i++) {
             listado[i] = testUtils.createVivienda(config);
         }
     }
@@ -130,6 +149,4 @@ public class GestionAlquilerTest {
     private void fill() {
         fill(new ViviendaConfig());
     }
-
-    
 }

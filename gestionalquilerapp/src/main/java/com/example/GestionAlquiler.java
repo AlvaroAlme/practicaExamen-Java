@@ -6,15 +6,14 @@ package com.example;
 
 import com.example.vivienda.Vivienda;
 
-
 /**
  *
  * @author ALVARO
  */
 public class GestionAlquiler {
-    
+
     private Vivienda[] listadoVivienda;
-    
+
     public GestionAlquiler() {
         super();
         listadoVivienda = new Vivienda[150];
@@ -23,34 +22,64 @@ public class GestionAlquiler {
     public Vivienda[] getListadoVivienda() {
         return this.listadoVivienda;
     }
-   
+
     public boolean registrarVivienda(Vivienda vivienda, Persona persona) {
-        
-        //buscar dni propietario y recorrer hasta null
-        for(int i = 0; i < listadoVivienda.length && !vivienda.equals(i); i++){
-            listadoVivienda[i] = vivienda;
-            return true;
+        for (int i = 0; i < listadoVivienda.length; i++) {
+            if (listadoVivienda[i] != null) {
+                if (listadoVivienda[i].getDireccion().equals(vivienda.getDireccion()) || listadoVivienda[i].getPropietaria().getDni().equals(persona.getDni())) {
+                    throw new IllegalArgumentException("Ya existe una vivienda registrada con estos datos");
+                }
+            } else {
+                listadoVivienda[i] = vivienda;
+                return true;
+            }
         }
-        return false;   
-    }
-    
-    public String informacionVivienda(String dniPropietario){
-        
-       return null;
-        
+
+        return false;
+
     }
 
-    public void listadoViviendas() {
+    public String informacionVivienda(String dni) {
+        for (int i = 0; i < listadoVivienda.length; i++) {
+            if (listadoVivienda[i] != null) {
+                if (listadoVivienda[i].getPropietaria().getDni().equals(dni)) {
+                    return listadoVivienda[i].toString();
+                }
+            } else {
+                return null;
+            }
+        }
+        return null;
 
+    }
+
+    public void listadoVivienda() {
+        for (int i = 0; i < listadoVivienda.length; i++) {
+            System.out.println(listadoVivienda[i].informacionComun());
+        }
     }
 
     public boolean asignarAlquiler(String dniPropietario, Persona inquilino, double dineroInquilino) {
+        for (int i = 0; i < listadoVivienda.length; i++) {
+            if (listadoVivienda[i].getPropietaria().getDni().equals(dniPropietario) && listadoVivienda[i].isIsDisponible()) {
+                if (dineroInquilino >= listadoVivienda[i].calcularCosteTotal()) {
+                    listadoVivienda[i].setInquilina(inquilino);
+                    listadoVivienda[i].setIsDisponible(false);
+                    return true;
+                }
+
+            }
+        }
         return false;
     }
 
     public double calcularCosteSeguro(String dniPropietario) {
+        for (int i = 0; i < listadoVivienda.length; i++) {
+            if (listadoVivienda[i].getPropietaria().getDni().equals(dniPropietario)) {
+                return listadoVivienda[i].calcularCosteSeguro();
+            }
+        }
         return -1;
     }
-    
-    
+
 }
