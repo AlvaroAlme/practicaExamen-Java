@@ -4,6 +4,8 @@
 
 package com.example;
 
+import com.example.menu.Ejemplo;
+
 /**
  *
  * @author ALVARO
@@ -11,6 +13,6 @@ package com.example;
 public class Principal {
 
     public static void main(String[] args) {
-        
+        Ejemplo.ejemplo();
     }
 }
