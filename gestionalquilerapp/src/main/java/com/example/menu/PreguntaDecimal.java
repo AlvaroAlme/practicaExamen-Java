@@ -16,7 +16,11 @@ public class PreguntaDecimal extends PreguntaSimple {
         while (true) {
             try {
                 respuesta = Double.parseDouble(scanner.nextLine());
-                break; // Salir del bucle si la conversión es exitosa
+                if (!esRespuestaValida()) {
+                    System.out.println("Por favor, introduce un número decimal válido.");
+                } else {
+                    break; // Salir del bucle si la respuesta es válida
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, introduce un número decimal válido.");
             }

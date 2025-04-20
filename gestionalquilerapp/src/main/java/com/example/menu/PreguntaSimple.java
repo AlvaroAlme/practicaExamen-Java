@@ -21,7 +21,7 @@ public abstract class PreguntaSimple extends Pregunta {
      * por las subclases que necesiten comprobar la respuesta del usuario.
      * @return True si la respuesta es correcta, false en caso contrario.
      */
-    protected boolean comprobarRespuesta() {
+    protected boolean esRespuestaValida() {
         return true;
     }
     

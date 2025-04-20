@@ -16,7 +16,11 @@ public class PreguntaEntero extends PreguntaSimple {
         while (true) {
             try {
                 respuesta = Integer.parseInt(scanner.nextLine());
-                break; // Salir del bucle si la conversión es exitosa
+                if(!esRespuestaValida()) {
+                    System.out.println("Por favor, introduce un número entero válido.");
+                } else {
+                    break; // Salir del bucle si la respuesta es válida
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, introduce un número entero válido.");
             }

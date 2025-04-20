@@ -13,7 +13,15 @@ public class PreguntaTexto extends PreguntaSimple {
 
     @Override
     protected void esperarRespuesta() {
-        respuesta = scanner.nextLine();
+        while(true) {
+            respuesta = scanner.nextLine();
+            if(!esRespuestaValida()) {
+                System.out.println("Por favor, introduce una respuesta válida.");
+            } else {
+                break; // Salir del bucle si la respuesta es válida
+            }
+        }
+        
     }
 
     public String getRespuesta() {

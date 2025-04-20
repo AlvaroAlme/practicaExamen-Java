@@ -49,5 +49,17 @@ public class Menu {
         pregunta.preguntar();
         return pregunta.getRespuesta();
     }
+
+    /**
+     * Pregunta que espera una respuesta de tipo entero positivo.
+     * Esta pregunta es un ejemplo de cómo se pueden implementar validaciones.
+     * @param textoPregunta
+     * @return la respuesta del usuario
+     */
+    public static int preguntarEnteroPositivo(String textoPregunta) {
+        PreguntaEnteroPositivo pregunta = new PreguntaEnteroPositivo(textoPregunta);
+        pregunta.preguntar();
+        return pregunta.getRespuesta();
+    }
     
 }
