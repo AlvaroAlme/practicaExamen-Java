@@ -17,8 +17,10 @@ public class Apartamento extends Vivienda {
         super();
     }
 
-    public Apartamento(String direccion, double metrosCuadrados, double precioAlquilerMensual) {
+    public Apartamento(String direccion, double metrosCuadrados, double precioAlquilerMensual, int costeMantenimiento, boolean tieneAscensor) {
         super(direccion, metrosCuadrados, precioAlquilerMensual);
+        this.costeMantenimiento = costeMantenimiento;
+        this.tieneAscensor = tieneAscensor;
     }
 
     public int getCosteMantenimiento() {

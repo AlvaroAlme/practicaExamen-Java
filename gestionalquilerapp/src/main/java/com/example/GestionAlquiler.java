@@ -28,16 +28,14 @@ public class GestionAlquiler {
         
         for (int i = 0; i < listadoVivienda.length; i++) {
             if (listadoVivienda[i] == null) {
-                if (listadoVivienda[i].getDireccion().equals(vivienda.getDireccion())) {
+                listadoVivienda[i] = vivienda;
+                return true;
+            }
+                else if (listadoVivienda[i].getDireccion().equals(vivienda.getDireccion())) {
                     throw new IllegalArgumentException("Ya existe una vivienda con esta direccion");
                 } else if (listadoVivienda[i].getPropietaria().getDni().equals(persona.getDni())) {
                     throw new IllegalArgumentException("Ya existe una viivienda con este prepoietario");
-                } else {
-                    listadoVivienda[i] = vivienda;
-                    return true;
-                }
-
-            }
+                } 
         }
         return false;
     }
@@ -58,11 +56,12 @@ public class GestionAlquiler {
 
     }
 
-    public boolean asignarAlquiler(String dniPropietario, String dniInquilino, double dineroInquilino) {
-        for (int i = 0; i < listadoVivienda.length; i++) {
+    public boolean asignarAlquiler(String dniPropietario, Persona inquilino, double dineroInquilino) {
+        for(int i = 0; i < listadoVivienda.length; i++) {
+            // JUANJO: NullPointerException aquí
             if (listadoVivienda[i].getPropietaria().getDni().equals(dniPropietario) && listadoVivienda[i].isIsDisponible()) {
                 if (dineroInquilino >= listadoVivienda[i].calcularCosteTotal()) {
-                    listadoVivienda[i].setInquilina(dniInquilino);
+                    listadoVivienda[i].setInquilina(inquilino);
                     listadoVivienda[i].setIsDisponible(false);
                     return true;
                 }

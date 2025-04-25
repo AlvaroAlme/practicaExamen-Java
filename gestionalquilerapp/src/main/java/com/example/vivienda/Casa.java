@@ -18,8 +18,11 @@ public class Casa extends Vivienda {
         super();
     }
 
-    public Casa(String direccion, double metrosCuadrados, double precioAlquilerMensual) {
+    public Casa(String direccion, double metrosCuadrados, double precioAlquilerMensual, boolean tieneJardin, boolean tieneGaraje, int costeJardin) {
         super(direccion, metrosCuadrados, precioAlquilerMensual);
+        this.tieneJardin = tieneJardin;
+        this.tieneGaraje = tieneGaraje;
+        this.costeJardin = costeJardin;
     }
 
     public boolean isTieneJardin() {

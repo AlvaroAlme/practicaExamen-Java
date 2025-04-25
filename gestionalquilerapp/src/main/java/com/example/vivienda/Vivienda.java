@@ -17,7 +17,7 @@ public abstract class Vivienda implements Asegurable {
     private double precioAlquilerMensual;
     private boolean isDisponible;
     private Persona propietaria;
-    private String inquilina;
+    private Persona inquilina;
 
     protected Vivienda() {
         super();
@@ -69,12 +69,12 @@ public abstract class Vivienda implements Asegurable {
         this.propietaria = propietaria;
     }
 
-    public String getInquilina() {
+    public Persona getInquilina() {
         return inquilina;
     }
 
-    public void setInquilina(String dniInquilino) {
-        this.inquilina = dniInquilino;
+    public void setInquilina(Persona inquilino) {
+        this.inquilina = inquilino;
     }
     
     public abstract double calcularCosteTotal();

@@ -85,7 +85,7 @@ public class GestionAlquilerTest {
     @Test
     public void testListadoVivienda() {
         fill();
-        gestionAlquiler.listadoVivienda();
+        gestionAlquiler.listadoViviendas();
     }
 
     @Test

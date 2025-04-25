@@ -1,13 +1,12 @@
 package com.example;
 
-import com.example.GestionAlquiler;
+import java.util.Scanner;
+
+import com.example.menu.Menu;
 import com.example.vivienda.Apartamento;
 import com.example.vivienda.Casa;
 import com.example.vivienda.LocalComercial;
 import com.example.vivienda.Vivienda;
-import com.example.vivienda.Asegurable;
-import com.example.Persona;
-import java.util.Scanner;
 
 public class Principal {
     public static void main(String[] args) {
@@ -52,31 +51,54 @@ public class Principal {
 
     public static void registrarVivienda(Scanner scanner, GestionAlquiler gestionAlquiler){
 
-        System.out.println("Introduce la direccion de la Vivienda");
-        String direccionVivienda = scanner.nextLine();
-
-        System.out.println("Introduce los m2 de la vivienda: ");
-        double metrosCuadrados = scanner.nextDouble();
+        String direccionVivienda = Menu.preguntarTexto("Introduce la direccion de la vivienda");
+        double metrosCuadrados = Menu.preguntarDecimal("Introduce los m2 de la vivienda:");
 
         System.out.println("Introduce el precio del alquiler mensual: ");
         double precioAlquilerMensual = scanner.nextDouble();
-
+        Vivienda vivienda = null;
+        Persona persona;
         
-        int tipoVivienda = 0;
-        System.out.println("Que tipo de vievienda quieres registrar?");
-        System.out.println("1.Casa");
-        System.out.println("2.Apartamento");
-        System.out.println("3.Local Comnercial");
+        
+        int tipoVivienda = Menu.preguntarOpcion(new String[]{"Casa", "Apartamento", "Local Comercial"});
 
         switch (tipoVivienda) {
             case 1:
-                System.out.println("La casa disponde de Jardin?");
-                boolean tieneJardin = scanner.nextBoolean();
+                boolean tieneJardin = Menu.preguntaBoolean("La casa tiene jardin");
+                int costeJardin = 0;
+                if(tieneJardin = true){
+                     costeJardin = Menu.preguntarEntero("Introduce el coste del jardin: ");
+                }
+                boolean tienGaraje = Menu.preguntaBoolean("¿La casa tiene garaje?");
+
+                vivienda = new Casa(direccionVivienda, metrosCuadrados, precioAlquilerMensual, tieneJardin, tienGaraje, costeJardin);
                 break;
-        
+
+            case 2:
+                int costeMantenimiento = Menu.preguntarEntero("Introduce el coste de mantenimiento: ");
+                boolean tieneAscensor = Menu.preguntaBoolean("¿El apartamento cuenta con Ascensor?");
+
+                vivienda = new Apartamento(direccionVivienda, metrosCuadrados, precioAlquilerMensual, costeMantenimiento, tieneAscensor);
+                break;
+            case 3: 
+                int recargoUbicacion = Menu.preguntarEntero("Introduce el recargo por Ubicacion: ");
+
+                vivienda = new LocalComercial(recargoUbicacion, direccionVivienda, metrosCuadrados, precioAlquilerMensual);
             default:
+                System.out.println("Por favor, elige una tipo de vivienda valido");
                 break;
+
         }
+
+        String nombrePropietario = Menu.preguntarTexto("Introduce el nombre del propietario: ");
+        String apellidosPropietario = Menu.preguntarTexto("Introduce el apellido del propietario: ");
+        String dniPropietario = Menu.preguntarTexto("Introduce el DNI del propietario");
+
+        persona = new Persona(nombrePropietario, apellidosPropietario, dniPropietario);
+
+        
+        gestionAlquiler.registrarVivienda(vivienda, persona);
+    
     }
 
     public static void listarVivienda(GestionAlquiler gestionAlquiler){
@@ -114,12 +136,12 @@ public class Principal {
         String dniPropietario = scanner.nextLine();
 
         System.out.println("Introduce el DNI del inquilino: ");
-        String dniInquilino = scanner.nextLine();
+        Persona inquilino = null;
 
         System.out.println("Introduce la cantidad de la que dispone el inquilino: ");
         double dineroInquilino = scanner.nextDouble();
 
-        boolean alquilerAsignado = gestionAlquiler.asignarAlquiler(dniPropietario, dniInquilino, dineroInquilino);
+        boolean alquilerAsignado = gestionAlquiler.asignarAlquiler(dniPropietario, inquilino, dineroInquilino);
         if(alquilerAsignado){
             System.out.println("Se ha asignado el alquiler correctamente");
         } else {

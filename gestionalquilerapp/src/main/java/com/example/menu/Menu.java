@@ -62,4 +62,9 @@ public class Menu {
         return pregunta.getRespuesta();
     }
     
+    public static boolean preguntaBoolean(String textoPregunta){
+        PreguntaBoolean pregunta = new PreguntaBoolean(textoPregunta);
+        pregunta.preguntar();
+        return pregunta.getRespuesta();
+    }
 }
