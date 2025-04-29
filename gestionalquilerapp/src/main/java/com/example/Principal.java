@@ -57,7 +57,7 @@ public class Principal {
         System.out.println("Introduce el precio del alquiler mensual: ");
         double precioAlquilerMensual = scanner.nextDouble();
         Vivienda vivienda = null;
-        Persona persona;
+        Persona persona = null;
         
         
         int tipoVivienda = Menu.preguntarOpcion(new String[]{"Casa", "Apartamento", "Local Comercial"});
@@ -93,6 +93,7 @@ public class Principal {
         String nombrePropietario = Menu.preguntarTexto("Introduce el nombre del propietario: ");
         String apellidosPropietario = Menu.preguntarTexto("Introduce el apellido del propietario: ");
         String dniPropietario = Menu.preguntarTexto("Introduce el DNI del propietario");
+        
 
         persona = new Persona(nombrePropietario, apellidosPropietario, dniPropietario);
 
