@@ -83,5 +83,21 @@ public abstract class Vivienda implements Asegurable {
         
         return "Direccion: " + this.getDireccion() + "/n" + "Metros Cuadrados: " +  this.getMetrosCuadrados() + "/n" + "Precio del alquiler mensual: " + this.getPrecioAlquilerMensual() + "/n" + "Propietaria/o: " + this.getPropietaria() + "/n" + "Inquilino/a: " +this.getInquilina();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vivienda{");
+        sb.append("direccion=").append(direccion);
+        sb.append(", metrosCuadrados=").append(metrosCuadrados);
+        sb.append(", precioAlquilerMensual=").append(precioAlquilerMensual);
+        sb.append(", isDisponible=").append(isDisponible);
+        sb.append(", propietaria=").append(propietaria);
+        sb.append(", inquilina=").append(inquilina);
+        sb.append('}');
+        return sb.toString();
+    }
+
+
     
 }

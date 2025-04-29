@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.Scanner;
-
 import com.example.menu.Menu;
 import com.example.vivienda.Apartamento;
 import com.example.vivienda.Casa;
@@ -10,34 +8,31 @@ import com.example.vivienda.Vivienda;
 
 public class Principal {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         GestionAlquiler gestionAlquiler = new GestionAlquiler();
-
-        System.out.println("------Elige una opcion:------");
-        System.out.println("1.Registrar una vivienda");
-        System.out.println("2.Buscar una vivienda");
-        System.out.println("3.Listar viviendas");
-        System.out.println("4.Calcular el coste del seguro una vivienda");
-        System.out.println("5.Alquilar una vivienda");
-        System.out.println("6.Salir de la aplicacion.");
 
         int opcion = 0;
 
+        while(opcion != 6){
+        
+        String[] opciones = {"Registrar una vivienda", "Buscar una vivienda", "Listar vivienda", "Calcular coste del seguro de una vivienda", "Alquilar una vivienda", "Salir de la aplicacion"};
+        opcion = Menu.preguntarOpcion(opciones);
+
+        
         switch (opcion) {
             case 1:
-                registrarVivienda(scanner, gestionAlquiler);
+                registrarVivienda(gestionAlquiler);
             break;
             case 2:
-                buscarVivienda(scanner, gestionAlquiler);
+                buscarVivienda(gestionAlquiler);
             break;
             case 3:
                 listarVivienda(gestionAlquiler);
             break;
             case 4:
-                calcularCosteSeguro(scanner, gestionAlquiler);
+                calcularCosteSeguro(gestionAlquiler);
             break;
             case 5:
-                alquilerVivienda(scanner, gestionAlquiler);
+                alquilerVivienda(gestionAlquiler);
             break;
             case 6:
                 System.out.println("Adios!");
@@ -48,14 +43,14 @@ public class Principal {
         }
 
     }
+}
 
-    public static void registrarVivienda(Scanner scanner, GestionAlquiler gestionAlquiler){
+    public static void registrarVivienda(GestionAlquiler gestionAlquiler){
 
-        String direccionVivienda = Menu.preguntarTexto("Introduce la direccion de la vivienda");
+        String direccionVivienda = Menu.preguntarTexto("Introduce la direccion de la vivienda"); //TODO: LA DIRECCION NO MANEJA QUE HAYA UN ESPACIO O NUMEROS EN LA ENTRADA
         double metrosCuadrados = Menu.preguntarDecimal("Introduce los m2 de la vivienda:");
 
-        System.out.println("Introduce el precio del alquiler mensual: ");
-        double precioAlquilerMensual = scanner.nextDouble();
+        double precioAlquilerMensual = Menu.preguntarDecimal("Introduce el precio del alquiler mensual: ");
         Vivienda vivienda = null;
         Persona persona = null;
         
@@ -66,7 +61,7 @@ public class Principal {
             case 1:
                 boolean tieneJardin = Menu.preguntaBoolean("La casa tiene jardin");
                 int costeJardin = 0;
-                if(tieneJardin = true){
+                if(tieneJardin){
                      costeJardin = Menu.preguntarEntero("Introduce el coste del jardin: ");
                 }
                 boolean tienGaraje = Menu.preguntaBoolean("¿La casa tiene garaje?");
@@ -84,22 +79,28 @@ public class Principal {
                 int recargoUbicacion = Menu.preguntarEntero("Introduce el recargo por Ubicacion: ");
 
                 vivienda = new LocalComercial(recargoUbicacion, direccionVivienda, metrosCuadrados, precioAlquilerMensual);
+                break;
             default:
                 System.out.println("Por favor, elige una tipo de vivienda valido");
                 break;
 
         }
 
+        if(vivienda == null) {
+            return;
+        }
+
         String nombrePropietario = Menu.preguntarTexto("Introduce el nombre del propietario: ");
         String apellidosPropietario = Menu.preguntarTexto("Introduce el apellido del propietario: ");
         String dniPropietario = Menu.preguntarTexto("Introduce el DNI del propietario");
-        if(!dniPropietario.matches("^[0-9]{8}[A-Z]$")){
+        if(!dniPropietario.matches("^[0-9]{9}[A-Z]$")){
             System.out.println("Formato del DNI invalido");
             return;
         }
         
-
+        
         persona = new Persona(nombrePropietario, apellidosPropietario, dniPropietario);
+        vivienda.setPropietaria(persona);
 
         
         gestionAlquiler.registrarVivienda(vivienda, persona);
@@ -107,13 +108,14 @@ public class Principal {
     }
 
     public static void listarVivienda(GestionAlquiler gestionAlquiler){
+
         System.out.println("Este es el listado de viviendas:");
         gestionAlquiler.listadoViviendas();
     }
 
-    public static void buscarVivienda(Scanner scanner, GestionAlquiler gestionAlquiler){
-        System.out.println("Introduce un DNI: ");
-        String dni = scanner.nextLine();
+    public static void buscarVivienda(GestionAlquiler gestionAlquiler){
+        
+        String dni = Menu.preguntarTexto("Introduce un DNI valido: ");
         String infoVivienda = gestionAlquiler.informacionVivienda(dni);
 
         if(infoVivienda != null){
@@ -123,10 +125,10 @@ public class Principal {
         }
     }
 
-    public static void calcularCosteSeguro(Scanner scanner, GestionAlquiler gestionAlquiler){
+    public static void calcularCosteSeguro(GestionAlquiler gestionAlquiler){
 
-        System.out.println("Introduce un DNI");
-        String dni = scanner.nextLine();
+        
+        String dni = Menu.preguntarTexto("Introduce un DNI valido: ");
         double costeSeguro = gestionAlquiler.calcularCosteSeguro(dni);
 
         if(costeSeguro != -1){
@@ -136,15 +138,15 @@ public class Principal {
         }
     }
 
-    public static void alquilerVivienda(Scanner scanner, GestionAlquiler gestionAlquiler){
-        System.out.println("Introduce el DNI del propietario: ");
-        String dniPropietario = scanner.nextLine();
+    public static void alquilerVivienda(GestionAlquiler gestionAlquiler){
+        String dniPropietario = Menu.preguntarTexto("Introduce un DNI valido: ");
 
-        System.out.println("Introduce el DNI del inquilino: ");
-        Persona inquilino = null;
+        String nombreInquilino = Menu.preguntarTexto("Introduce el nombre del inquilino: ");
+        String apellidoInquilino = Menu.preguntarTexto("Introduce el apellido del inquilino: ");
+        String dniInquilino = Menu.preguntarTexto("Introduce el dni del inquilino: ");
+        Persona inquilino = new Persona(nombreInquilino, apellidoInquilino, dniInquilino);
 
-        System.out.println("Introduce la cantidad de la que dispone el inquilino: ");
-        double dineroInquilino = scanner.nextDouble();
+        double dineroInquilino = Menu.preguntarDecimal("Introduce la cantidad de la que dispone el inquilino: ");
 
         boolean alquilerAsignado = gestionAlquiler.asignarAlquiler(dniPropietario, inquilino, dineroInquilino);
         if(alquilerAsignado){

@@ -25,7 +25,6 @@ public class GestionAlquiler {
 
     public boolean registrarVivienda(Vivienda vivienda, Persona persona) {
 
-        
         for (int i = 0; i < listadoVivienda.length; i++) {
             if (listadoVivienda[i] == null) {
                 listadoVivienda[i] = vivienda;
@@ -41,7 +40,7 @@ public class GestionAlquiler {
     }
 
     public String informacionVivienda(String dni) {
-        for (int i = 0; i < listadoVivienda.length; i++) {
+        for (int i = 0; i < listadoVivienda.length && listadoVivienda[i] != null; i++) {
             if (listadoVivienda[i].getPropietaria().getDni().equals(dni)) {
                 return listadoVivienda[i].toString();
             }
@@ -50,14 +49,16 @@ public class GestionAlquiler {
     }
 
     public void listadoViviendas() {
-        for (int i = 0; i < listadoVivienda.length; i++) {
+        if(listadoVivienda[0] == null){
+            System.out.println("No existe ninguna vivienda registrada");
+        }
+        for (int i = 0; i < listadoVivienda.length && listadoVivienda[i] != null; i++) {
             System.out.println(listadoVivienda[i].informacionComun());
         }
-
     }
 
     public boolean asignarAlquiler(String dniPropietario, Persona inquilino, double dineroInquilino) {
-        for(int i = 0; i < listadoVivienda.length; i++) {
+        for(int i = 0; i < listadoVivienda.length && listadoVivienda[i] != null; i++) {
             // JUANJO: NullPointerException aquí
             if (listadoVivienda[i].getPropietaria().getDni().equals(dniPropietario) && listadoVivienda[i].isIsDisponible()) {
                 if (dineroInquilino >= listadoVivienda[i].calcularCosteTotal()) {
@@ -72,7 +73,7 @@ public class GestionAlquiler {
     }
 
     public double calcularCosteSeguro(String dniPropietario) {
-         for (int i = 0; i < listadoVivienda.length; i++) {
+         for (int i = 0; i < listadoVivienda.length && listadoVivienda[i] != null; i++) {
             if (listadoVivienda[i].getPropietaria().getDni().equals(dniPropietario)) {
                 return listadoVivienda[i].calcularCosteSeguro();
             }

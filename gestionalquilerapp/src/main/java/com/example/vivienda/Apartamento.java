@@ -46,5 +46,12 @@ public class Apartamento extends Vivienda {
         
         return this.getMetrosCuadrados() * 0.5;
     }
+
+    @Override
+    public String toString() {
+        return "Apartamento [costeMantenimiento=" + costeMantenimiento + ", tieneAscensor=" + tieneAscensor
+                + ", toString()=" + super.toString() + "]";
+    }
+    
     
 }

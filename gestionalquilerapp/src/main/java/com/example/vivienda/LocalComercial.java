@@ -40,5 +40,12 @@ public class LocalComercial extends Vivienda {
             return (this.getMetrosCuadrados() * 0.8) + (this.getRecargoUbicacion() * 0.1);
                 
 }
+
+    @Override
+    public String toString() {
+        return "LocalComercial [recargoUbicacion=" + recargoUbicacion + ", toString()=" + super.toString() + "]";
+    }
+
+    
     
 }

@@ -68,5 +68,13 @@ public class Casa extends Vivienda {
             return this.getMetrosCuadrados() * 0.7;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Casa [tieneJardin=" + tieneJardin + ", tieneGaraje=" + tieneGaraje + ", costeJardin=" + costeJardin
+                + ", toString()=" + super.toString() + "]";
+    }
+
+    
    
 }
