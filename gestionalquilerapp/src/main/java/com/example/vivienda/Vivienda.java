@@ -15,9 +15,9 @@ public abstract class Vivienda implements Asegurable {
     private String direccion;
     private double metrosCuadrados;
     private double precioAlquilerMensual;
-    private boolean isDisponible;
+    private boolean isDisponible = true;
     private Persona propietaria;
-    private Persona inquilina;
+    private Persona inquilina = null;
 
     protected Vivienda() {
         super();
