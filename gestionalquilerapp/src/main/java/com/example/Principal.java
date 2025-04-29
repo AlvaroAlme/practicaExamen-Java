@@ -93,6 +93,10 @@ public class Principal {
         String nombrePropietario = Menu.preguntarTexto("Introduce el nombre del propietario: ");
         String apellidosPropietario = Menu.preguntarTexto("Introduce el apellido del propietario: ");
         String dniPropietario = Menu.preguntarTexto("Introduce el DNI del propietario");
+        if(!dniPropietario.matches("^[0-9]{8}[A-Z]$")){
+            System.out.println("Formato del DNI invalido");
+            return;
+        }
         
 
         persona = new Persona(nombrePropietario, apellidosPropietario, dniPropietario);
