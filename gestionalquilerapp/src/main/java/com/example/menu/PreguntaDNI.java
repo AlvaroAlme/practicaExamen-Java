@@ -8,19 +8,11 @@ public class PreguntaDNI extends PreguntaTexto {
         super(textoPregunta);
     }
 
+    
+
     @Override
-    protected void esperarRespuesta(){
-        while(true){
-            respuesta = scanner.nextLine();
-            if(!respuesta.matches("^{0-9}[9]{A-Z}")){
-                System.out.println("Formato del DNI invalido");
-            } else {
-                break;
-            }
-        }
+    protected boolean esRespuestaValida() {
+        return respuesta.matches("^[0-9]{8}[A-Z]$");
     }
 
-    public String getRespuesta(){
-        return respuesta;
-    }
 }
